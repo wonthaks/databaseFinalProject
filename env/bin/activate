@@ -46,7 +46,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV='/Users/wontha/Desktop/DATABASE_FINAL/finalProject/env'
+VIRTUAL_ENV='/Users/wontha/Desktop/DATABASE_FINAL/databaseFinalProject/env'
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

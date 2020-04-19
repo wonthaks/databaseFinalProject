@@ -28,7 +28,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"/Users/wontha/Desktop/DATABASE_FINAL/finalProject/env"
+$VIRTUAL_ENV = r"/Users/wontha/Desktop/DATABASE_FINAL/databaseFinalProject/env"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]

@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>Hospital Inventory Management</title>
+  </head>
+  <body>
+    <h1>Home Page</h1>
+    <div>Show all <a href="/items/show">ITEMS</a></div> </br>
+    <div>Show all <a href="/staff/show">STAFF</a></div> </br>
+    <div>Show all <a href="/uses/show">USAGE OF ITEMS</a></div> </br>
+    <div>
+      Show oldest usage of items.
+      <form action="/uses/showOldest" method=GET>
+      <label>Input number of list items to show : </label>
+      <input name="amount-to-show"/>
+      <input type=submit value="Find"/>
+      </form>
+    </div>
+    <div>
+      Submit item borrow application.
+      <form action="/uses/borrowItem" method=GET>
+        <input name="staffID" placeholder="Staff ID" /></br>
+        <input name="itemID" placeholder="Item ID" /> </br>
+      <input type=submit value="Borrow"/>
+      {% if success %}
+      Successfully borrowed item!
+      {% else %}
+      Could not borrow item.
+      Please check input information again.
+      {% endif %}
+      </form>
+    </div> </br>
+  </body>
+</html>

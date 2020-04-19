@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>{{ name }}</title>
+    <style>
+      table, th, td {border: 1px solid black;}
+    </style>
+  </head>
+  <body>
+    <h3> Type : '{{ itemType }}' &emsp; &emsp; ID : {{ id }} </h3>
+    <h3> Manufacturer : '{{ manu }}' </h3>
+    <h3> In stock : {{ stockN }} items </h3>
+    <h3> Checked out : {{ borrowedN }} items </h3>
+    <form action="/items/increaseItemCount" methods=[GET,POST]>
+      <input type="hidden" name="itemID" value="{{ id }}"/>
+      <input type="hidden" name="stockNum" value="{{ stockN }}"/>
+      <input type="hidden" name="borrowedNum" value="{{ borrowedN }}"/>
+      <input type="submit" value="Increase Stock Count"/>
+    </form>
+    <form action="/items/decreaseItemCount" methods=[GET,POST]>
+      <input type="hidden" name="itemID" value="{{ id }}"/>
+      <input type="hidden" name="stockNum" value="{{ stockN }}"/>
+      <input type="hidden" name="borrowedNum" value="{{ borrowedN }}"/>
+      <input type="submit" value="Decrease Stock Count"/>
+    </form>
+    <h3> Cost per item : ${{ price }} &emsp; &emsp; Total price : ${{ totalP }} </h3>
+
+    <h1> Item History </h1>
+    <table>
+      {% if rows %}
+      <tr>
+        {% for name in rows[0].keys() %}
+          <th>{{ name }}</th>
+        {% endfor %}
+      <tr>
+      {% endif %}
+      {% for row in rows %}
+      <tr>
+        {% for col in row.values() %}
+          {% if col %}
+          <td> {{ col }} </td>
+          {% else %}
+          {% set staffID = (row.values() | list)[0] %}
+          {% set dateBorrowed = (row.values() | list)[2] %}
+          <td>
+            <form action="/uses/return" methods=[GET,POST]>
+              <input type="hidden" name="itemID" value="{{ id }}"/>
+              <input type="hidden" name="staffID" value="{{ staffID }}"/>
+              <input type="hidden" name="dateBorrowed" value="{{ dateBorrowed }}"/>
+              <input type="submit" value="Return"/>
+            </form>
+          </td>
+          {% endif %}
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

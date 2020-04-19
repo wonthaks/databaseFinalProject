@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>{{ name }}</title>
+    <style>
+      table, th, td {border: 1px solid black;}
+    </style>
+  </head>
+  <body>
+    <h1>Items Page</h1>
+    <table>
+      {% if rows %}
+      <tr>
+        {% for name in rows[0].keys() %}
+          <th>{{ name }}</th>
+        {% endfor %}
+        <th>Report Page</th>
+      <tr>
+      {% endif %}
+      {% for row in rows %}
+      <tr>
+        {% for col in row.values() %}
+          <td>{{ col }}</td>
+        {% endfor %}
+        {% set itemID = (row.values() | list)[0] %}
+        <td>
+          <form action="/items/report" methods=[GET,POST]>
+            <input type="hidden" name="itemID" value="{{ itemID }}"/>
+            <input type="submit" value="Report"/>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </br>
+  <div>
+    Add another item to this inventory list.
+    <form action="/items/addItem" method=GET>
+      <input name="itemID" placeholder="Item ID" /> </br>
+      <input name="itemType" placeholder="Item Type" /> </br>
+      <input name="itemPrice" placeholder="Price" /> </br>
+      <input name="itemStockNum" placeholder="Stock Number" /> </br>
+      <input name="itemManufacturer" placeholder="Manufacturer" /> </br>
+      <input type=submit value="Add Item"/>
+    </form>
+    {% if success %}
+    Successfully added the new item into the inventory!
+    {% endif %}
+  </div>
+  </body>
+</html>

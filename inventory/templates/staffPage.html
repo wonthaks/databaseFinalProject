@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <title>{{ name }}</title>
+    <style>
+      table, th, td {border: 1px solid black;}
+    </style>
+  </head>
+  <body>
+    <h1>Staff Page</h1>
+    <table>
+      {% if rows %}
+      <tr>
+        {% for name in rows[0].keys() %}
+          <th>{{ name }}</th>
+        {% endfor %}
+        <th>Item History</th>
+      <tr>
+      {% endif %}
+      {% for row in rows %}
+      <tr>
+        {% for col in row.values() %}
+          <td>{{ col }}</td>
+        {% endfor %}
+        {% set staffID = (row.values() | list)[0] %}
+        <td>
+          <form action="/staff/itemHistory" methods=[GET,POST]>
+            <input type="hidden" name="staffID" value="{{ staffID }}"/>
+            <input type="submit" value="History"/>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

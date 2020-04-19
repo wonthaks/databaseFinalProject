@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>{{ name }}</title>
+    <style>
+      table, th, td {border: 1px solid black;}
+    </style>
+  </head>
+  <body>
+    <h1>Staff History</h1>
+    <h3> Name : '{{ staffName }}' &emsp; &emsp; ID : {{ staffID }} </h3>
+    <h3> Department : '{{ department }}' </h3>
+    <h3> Total price of items currently being used : ${{ totalPriceInfo }} </h3>
+    <table>
+      {% if rows %}
+      <tr>
+        {% for name in rows[0].keys() %}
+          <th>{{ name }}</th>
+        {% endfor %}
+      <tr>
+      {% endif %}
+      {% for row in rows %}
+      <tr>
+        {% for col in row.values() %}
+          {% if col %}
+            <td> {{ col }} </td>
+          {% else %}
+          {% set itemID = (row.values() | list)[0] %}
+          {% set dateBorrowed = (row.values() | list)[2] %}
+            <td>
+              <form action="/staff/return" methods=[GET,POST]>
+                <input type="hidden" name="staffID" value="{{ staffID }}"/>
+                <input type="hidden" name="itemID" value="{{ itemID }}"/>
+                <input type="hidden" name="dateBorrowed" value="{{ dateBorrowed }}"/>
+                <input type="hidden" name="totalPriceInfo" value="{{ totalPriceInfo }}"/>
+                <input type="submit" value="Return"/>
+              </form>
+            </td>
+          {% endif %}
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
