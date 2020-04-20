@@ -22,9 +22,13 @@ def getItemInformation(conn):
     return execute(conn, "SELECT i.itemID, i.type, i.manufacturer, i.stockNum, i.borrowedNum, i.price, i.price * i.stockNum as totalPrice FROM Items as i WHERE i.itemID = "+id+"")
 def uses(conn):
     return execute(conn, "SELECT u.itemID as 'Item ID', i.type as 'Item Type', u.staffID as 'Staff ID', s.name as 'Staff Name', u.dateBorrowed as 'Date borrowed', u.dateReturned as 'Date returned' FROM Items as i INNER JOIN Uses AS u ON i.itemID = u.itemID INNER JOIN Staff as s ON u.staffID = s.staffID ORDER BY u.dateReturned IS NULL DESC, u.dateBorrowed DESC")
-def getOldest(conn):
+def getOldestCount(conn):
     amount = request.args.get('amount-to-show')
-    return execute(conn, "SELECT i.itemID as 'Item ID', i.type as 'Item Type', s.staffID as 'Staff ID', s.name as 'Staff Name', u.dateBorrowed as 'Date borrowed', u.dateReturned as 'Date returned' FROM Items as i INNER JOIN Uses as u ON i.itemID = u.itemID INNER JOIN Staff as s ON u.staffID = s.staffID WHERE u.dateReturned IS NOT NULL ORDER BY u.dateBorrowed ASC LIMIT "+amount+"")
+    return execute(conn, "SELECT i.itemID as 'Item ID', i.type as 'Item Type', COUNT(i.itemID) as 'Total Uses' FROM Items as i INNER JOIN Uses as u ON i.itemID = u.itemID WHERE u.dateReturned IS NOT NULL GROUP BY i.itemID ORDER BY COUNT(i.itemID) ASC LIMIT "+amount+"")
+def getOldestUses(conn):
+    amount = request.args.get('amount-to-show')
+    return execute(conn, "SELECT i.itemID as 'Item ID', i.type as 'Item Type', MAX(u.dateBorrowed) as 'Most Recent Date Used' FROM Items as i INNER JOIN Uses as u ON i.itemID = u.itemID WHERE u.dateReturned IS NOT NULL GROUP BY i.itemID ORDER BY MAX(u.dateBorrowed) ASC LIMIT "+amount+"")
+
 def borrowItemToday(conn):
     staffID = request.args.get('staffID')
     itemID = request.args.get('itemID')
@@ -67,12 +71,19 @@ def returnI(bp):
         return render_template("reportPage.html", type="report", rows=rows, itemType=itemInfo['type'], id=itemInfo['itemID'], manu=itemInfo['manufacturer'],
         stockN=itemInfo['stockNum'], borrowedN=itemInfo['borrowedNum'], price=itemInfo['price'], totalP=itemInfo['totalPrice'])
 
-def showOldest(bp):
-    @bp.route("/uses/showOldest")
-    def _showOldest():
+def showOldestItemsCount(bp):
+    @bp.route("/uses/showOldestCount")
+    def _showOldestCount():
         with get_db() as conn:
-            rows = getOldest(conn)
-        return render_template("usesHistory.html", name="showOldest", rows=rows)
+            rows = getOldestCount(conn)
+        return render_template("usesCount.html", name="showOldestCount", rows=rows)
+
+def showOldestItemsUses(bp):
+    @bp.route("/uses/showOldestUsed")
+    def _showOldestUses():
+        with get_db() as conn:
+            rows = getOldestUses(conn)
+        return render_template("usesHistory.html", name="showOldestUsed", rows=rows)
 
 def borrowItem(bp):
     @bp.route("/uses/borrowItem")

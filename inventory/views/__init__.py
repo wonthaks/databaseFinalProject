@@ -22,7 +22,8 @@ items.addItem(blueprint)
 uses.views(blueprint)
 uses.returnU(blueprint)
 uses.returnI(blueprint)
-uses.showOldest(blueprint)
+uses.showOldestItemsCount(blueprint)
+uses.showOldestItemsUses(blueprint)
 uses.borrowItem(blueprint)
 
 def init_app(app):

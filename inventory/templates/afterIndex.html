@@ -8,8 +8,16 @@
     <div>Show all <a href="/staff/show">STAFF</a></div> </br>
     <div>Show all <a href="/uses/show">USAGE OF ITEMS</a></div> </br>
     <div>
-      Show oldest usage of items.
-      <form action="/uses/showOldest" method=GET>
+      Show items least used. (by count)
+      <form action="/uses/showOldestCount" method=GET>
+      <label>Input number of list items to show : </label>
+      <input name="amount-to-show"/>
+      <input type=submit value="Find"/>
+      </form>
+    </div>
+    <div>
+      Show items least recently used. (by date)
+      <form action="/uses/showOldestUsed" method=GET>
       <label>Input number of list items to show : </label>
       <input name="amount-to-show"/>
       <input type=submit value="Find"/>
