@@ -6,13 +6,19 @@ This is a project for the class Database Systems and is done by Ana Luisa Mata S
 ## About
 This project is a tool to manage hospital inventories and analyze them. With this program, it is possible to manage items by adding them, and reducing or increasing their counts.  It is possible to let existing staff members borrow items if available. Furthermore, there are several options given to the user to analyze the current items being used by the staff. 
 
+## Installation
+Flask is required to run this program. To install flask:
+
+`pip3 install flask`
 
 ## Usage
 Run the program using the following:
 
-virtualenv --python=3.7 env
-source activate.sh
-flask run
+`virtualenv --python=3.7 env`
+
+`source activate.sh`
+
+`flask run`
 
 After running, the user will now be able to view the employees in the database, as well as the items currently stored in the inventory. The user will also be able to view all the cases where the employees are using the items.
 
